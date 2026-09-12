@@ -1,0 +1,42 @@
+[
+  {
+    "themeName": "默认",
+    "isNightTheme": false,
+    "primaryColor": "#FFFFFF",
+    "accentColor": "#1A1A1A",
+    "backgroundColor": "#F6F6F7",
+    "bottomBackground": "#FFFFFF",
+    "uiFontColor": "#111111",
+    "titleFontColor": "#111111"
+  },
+  {
+    "themeName": "皓白",
+    "isNightTheme": false,
+    "primaryColor": "#FFFFFF",
+    "accentColor": "#B08D57",
+    "backgroundColor": "#FFFFFF",
+    "bottomBackground": "#FFFFFF",
+    "uiFontColor": "#1A1A1A",
+    "titleFontColor": "#1A1A1A"
+  },
+  {
+    "themeName": "黑白",
+    "isNightTheme": true,
+    "primaryColor": "#303030",
+    "accentColor": "#E0E0E0",
+    "backgroundColor": "#424242",
+    "bottomBackground": "#424242",
+    "uiFontColor": "#FFFFFF",
+    "titleFontColor": "#FFFFFF"
+  },
+  {
+    "themeName": "A屏黑",
+    "isNightTheme": true,
+    "primaryColor": "#000000",
+    "accentColor": "#FFFFFF",
+    "backgroundColor": "#000000",
+    "bottomBackground": "#000000",
+    "uiFontColor": "#FFFFFF",
+    "titleFontColor": "#FFFFFF"
+  }
+]

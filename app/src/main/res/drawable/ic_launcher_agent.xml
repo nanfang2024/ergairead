@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 私有版应用图标：白色底 + 墨黑开卷 + 香槟金书脊 -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M204,0 h616 q204,0 204,204 v616 q0,204 -204,204 H204 q-204,0 -204,-204 V204 Q0,0 204,0 z" />
+
+    <path
+        android:fillColor="#00000000"
+        android:strokeColor="#E6E6E8"
+        android:strokeWidth="8"
+        android:pathData="M204,6 h616 q198,0 198,198 v616 q0,198 -198,198 H204 q-198,0 -198,-198 V204 Q6,6 204,6 z" />
+
+    <path
+        android:fillColor="#1A1A1A"
+        android:pathData="M284,389 C379,341 455,322 504,334 L504,716 C455,704 370,720 284,758 Z" />
+
+    <path
+        android:fillColor="#1A1A1A"
+        android:pathData="M739,389 C645,341 569,322 519,334 L519,716 C569,704 654,720 739,758 Z" />
+
+    <path
+        android:fillColor="#B08D57"
+        android:pathData="M504,334 h15 v382 h-15 z" />
+</vector>
