@@ -3,6 +3,8 @@
 local.properties
 *.jks
 /app/key.jks
+/keystore/
+/keystore.properties
 __pycache__/
 *.pyc
 .DS_Store
