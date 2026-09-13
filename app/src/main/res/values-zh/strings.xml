@@ -1,7 +1,7 @@
 ﻿<resources>
     <!--App-->
-    <string name="app_name">阅读</string>
-    <string name="app_launcher_name">阅读</string>
+    <string name="app_name">NGBook</string>
+    <string name="app_launcher_name">NGBook</string>
     <string name="app_name_a">阅读·A</string>
     <string name="app_name_s">阅读Plus</string>
     <string name="receiving_shared_label">阅读·搜索</string>
@@ -47,6 +47,12 @@
     <string name="enable">启用</string>
     <string name="replace_purify_search">替换净化-搜索</string>
     <string name="bookshelf">书架</string>
+    <string name="ng_filter_all">全部</string>
+    <string name="ng_filter_reading">在读</string>
+    <string name="ng_filter_want">想读</string>
+    <string name="ng_filter_finished">已读完</string>
+    <string name="ng_filter_downloaded">已下载</string>
+    <string name="ng_media_manga">漫画</string>
     <string name="favorites">收藏夹</string>
     <string name="favorite">收藏</string>
     <string name="in_favorites">已收藏</string>

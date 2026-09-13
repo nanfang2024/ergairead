@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,6 +18,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -56,11 +58,15 @@ import io.legado.app.ui.main.bookshelf.compose.BookshelfGridItem
 import io.legado.app.ui.main.bookshelf.compose.BookshelfItemUi
 import io.legado.app.ui.main.bookshelf.compose.BookshelfListItem
 import io.legado.app.ui.main.bookshelf.compose.BookshelfSnapshotStore
+import io.legado.app.ui.main.bookshelf.compose.NgShelfFilter
+import io.legado.app.ui.main.bookshelf.compose.NgShelfFilterBar
 import io.legado.app.ui.main.bookshelf.compose.buildBookshelfItems
 import io.legado.app.ui.main.bookshelf.compose.rememberBookshelfListRenderConfig
 import io.legado.app.ui.main.bookshelf.compose.updateBookshelfItemUpdating
 import io.legado.app.ui.widget.compose.ComposeLazyGridFastScroller
 import io.legado.app.ui.widget.compose.ComposeLazyListFastScroller
+import io.legado.app.ui.widget.compose.ng.LocalNgGlassPalette
+import io.legado.app.ui.widget.compose.ng.rememberNgGlassPalette
 import io.legado.app.utils.applyMainBottomBarPadding
 import io.legado.app.utils.cnCompare
 import io.legado.app.utils.dpToPx
@@ -120,6 +126,7 @@ class BookshelfFragment2() : BaseBookshelfFragment(R.layout.fragment_bookshelf2)
     private var composeScrollToTopTick by mutableStateOf(0)
     private var composeListItemStyle by mutableIntStateOf(AppConfig.bookshelfListItemStyle)
     private var composeListIntroLines by mutableIntStateOf(AppConfig.bookshelfListIntroLines)
+    private var composeFilter by mutableStateOf(NgShelfFilter.All)
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
         setSupportToolbar(binding.titleBar.toolbar)
@@ -159,10 +166,14 @@ class BookshelfFragment2() : BaseBookshelfFragment(R.layout.fragment_bookshelf2)
             ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
         )
         binding.composeBookshelf.setContent {
-            if (useComposeGrid) {
-                BookshelfGridContent()
-            } else {
-                BookshelfListContent()
+            CompositionLocalProvider(
+                LocalNgGlassPalette provides rememberNgGlassPalette()
+            ) {
+                if (useComposeGrid) {
+                    BookshelfGridContent()
+                } else {
+                    BookshelfListContent()
+                }
             }
         }
     }
@@ -219,38 +230,48 @@ class BookshelfFragment2() : BaseBookshelfFragment(R.layout.fragment_bookshelf2)
                 }
             }
         }
-        Box(modifier = Modifier.fillMaxSize()) {
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(bookshelfLayout),
-                state = gridState,
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(
-                    start = 8.dp,
-                    top = marginDp + 24.dp,
-                    end = 8.dp,
-                    bottom = marginDp + bottomBarPadding + 12.dp
-                )
-            ) {
-                items(
-                    items = composeItems,
-                    key = { it.key },
-                    contentType = { it.contentType }
-                ) { item ->
-                    BookshelfGridItem(
-                        item = item,
-                        modifier = Modifier,
-                        fragment = this@BookshelfFragment2,
-                        lifecycle = viewLifecycleOwner.lifecycle,
-                        onClick = ::onComposeItemClick,
-                        onLongClick = ::onComposeItemLongClick
-                    )
-                }
-            }
-            ComposeLazyGridFastScroller(
-                state = gridState,
-                enabled = AppConfig.showBookshelfFastScroller,
-                modifier = Modifier.align(Alignment.CenterEnd)
+        Column(modifier = Modifier.fillMaxSize()) {
+            NgShelfFilterBar(
+                filter = composeFilter,
+                onFilterSelect = ::selectComposeFilter
             )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1f)
+            ) {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(bookshelfLayout),
+                    state = gridState,
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(
+                        start = 8.dp,
+                        top = marginDp + 24.dp,
+                        end = 8.dp,
+                        bottom = marginDp + bottomBarPadding + 12.dp
+                    )
+                ) {
+                    items(
+                        items = composeItems,
+                        key = { it.key },
+                        contentType = { it.contentType }
+                    ) { item ->
+                        BookshelfGridItem(
+                            item = item,
+                            modifier = Modifier,
+                            fragment = this@BookshelfFragment2,
+                            lifecycle = viewLifecycleOwner.lifecycle,
+                            onClick = ::onComposeItemClick,
+                            onLongClick = ::onComposeItemLongClick
+                        )
+                    }
+                }
+                ComposeLazyGridFastScroller(
+                    state = gridState,
+                    enabled = AppConfig.showBookshelfFastScroller,
+                    modifier = Modifier.align(Alignment.CenterEnd)
+                )
+            }
         }
     }
 
@@ -307,41 +328,51 @@ class BookshelfFragment2() : BaseBookshelfFragment(R.layout.fragment_bookshelf2)
                 }
             }
         }
-        Box(modifier = Modifier.fillMaxSize()) {
-            LazyColumn(
-                state = listState,
-                modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(
-                    start = 8.dp,
-                    top = marginDp + 24.dp,
-                    end = 8.dp,
-                    bottom = marginDp + bottomBarPadding + 12.dp
-                )
-            ) {
-                items(
-                    items = composeItems,
-                    key = { it.key },
-                    contentType = { it.contentType }
-                ) { item ->
-                    BookshelfListItem(
-                        item = item,
-                        listLayout = bookshelfLayout,
-                        cardStyle = composeListItemStyle,
-                        introMaxLines = composeListIntroLines,
-                        renderConfig = renderConfig,
-                        modifier = Modifier.padding(vertical = marginDp.coerceAtLeast(2.dp)),
-                        fragment = this@BookshelfFragment2,
-                        lifecycle = viewLifecycleOwner.lifecycle,
-                        onClick = ::onComposeItemClick,
-                        onLongClick = ::onComposeItemLongClick
-                    )
-                }
-            }
-            ComposeLazyListFastScroller(
-                state = listState,
-                enabled = AppConfig.showBookshelfFastScroller,
-                modifier = Modifier.align(Alignment.CenterEnd)
+        Column(modifier = Modifier.fillMaxSize()) {
+            NgShelfFilterBar(
+                filter = composeFilter,
+                onFilterSelect = ::selectComposeFilter
             )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(1f)
+            ) {
+                LazyColumn(
+                    state = listState,
+                    modifier = Modifier.fillMaxSize(),
+                    contentPadding = PaddingValues(
+                        start = 8.dp,
+                        top = marginDp + 24.dp,
+                        end = 8.dp,
+                        bottom = marginDp + bottomBarPadding + 12.dp
+                    )
+                ) {
+                    items(
+                        items = composeItems,
+                        key = { it.key },
+                        contentType = { it.contentType }
+                    ) { item ->
+                        BookshelfListItem(
+                            item = item,
+                            listLayout = bookshelfLayout,
+                            cardStyle = composeListItemStyle,
+                            introMaxLines = composeListIntroLines,
+                            renderConfig = renderConfig,
+                            modifier = Modifier.padding(vertical = marginDp.coerceAtLeast(2.dp)),
+                            fragment = this@BookshelfFragment2,
+                            lifecycle = viewLifecycleOwner.lifecycle,
+                            onClick = ::onComposeItemClick,
+                            onLongClick = ::onComposeItemLongClick
+                        )
+                    }
+                }
+                ComposeLazyListFastScroller(
+                    state = listState,
+                    enabled = AppConfig.showBookshelfFastScroller,
+                    modifier = Modifier.align(Alignment.CenterEnd)
+                )
+            }
         }
     }
 
@@ -411,7 +442,7 @@ class BookshelfFragment2() : BaseBookshelfFragment(R.layout.fragment_bookshelf2)
                     itemCount = getItemCount()
                     binding.tvEmptyMsg.isGone = itemCount > 0
                     binding.refreshLayout.isEnabled = enableRefresh && itemCount > 0
-                    saveComposeSnapshot(snapshotKey, items)
+                    saveComposeSnapshot(currentComposeSnapshotKey(), items)
                     delay(100)
                 }
                 return@launch
@@ -499,9 +530,21 @@ class BookshelfFragment2() : BaseBookshelfFragment(R.layout.fragment_bookshelf2)
             books = list,
             isRootGroup = groupId == BookGroup.IdRoot,
             groupId = groupId,
-            isUpdating = ::isUpdate
+            isUpdating = ::isUpdate,
+            filter = composeFilter
         )
         composeDataVersion++
+    }
+
+    private fun selectComposeFilter(filter: NgShelfFilter) {
+        if (composeFilter == filter) {
+            return
+        }
+        composeFilter = filter
+        updateComposeItems(shelfDisplays)
+        binding.tvEmptyMsg.isGone = composeItems.isNotEmpty()
+        binding.refreshLayout.isEnabled = enableRefresh && composeItems.isNotEmpty()
+        composeScrollToTopTick++
     }
 
     private fun currentComposeSnapshotKey(): String {
@@ -509,7 +552,7 @@ class BookshelfFragment2() : BaseBookshelfFragment(R.layout.fragment_bookshelf2)
             style = "style2",
             groupId = groupId,
             sort = AppConfig.getBookSortByGroupId(groupId),
-            tagFilter = "",
+            tagFilter = composeFilter.name,
             groups = bookGroups
         )
     }

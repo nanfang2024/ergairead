@@ -299,6 +299,9 @@ private fun BookshelfCoverBlock(
             fragment = fragment,
             lifecycle = lifecycle
         )
+        if (item is BookshelfBookItemUi && item.display.isImage) {
+            NgMangaBadge(modifier = Modifier.align(Alignment.TopStart))
+        }
     }
 }
 

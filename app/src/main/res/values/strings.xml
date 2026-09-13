@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--App-->
-    <string name="app_name">阅读</string>
-    <string name="app_launcher_name">阅读</string>
+    <string name="app_name">NGBook</string>
+    <string name="app_launcher_name">NGBook</string>
     <string name="app_name_a">阅读·A</string>
     <string name="app_name_s" translatable="false">阅读Plus</string>
     <string name="receiving_shared_label">阅读·搜索</string>
@@ -48,6 +48,12 @@
     <string name="enable">Enable</string>
     <string name="replace_purify_search">Search Replacement</string>
     <string name="bookshelf">Bookshelf</string>
+    <string name="ng_filter_all">All</string>
+    <string name="ng_filter_reading">Reading</string>
+    <string name="ng_filter_want">Want to Read</string>
+    <string name="ng_filter_finished">Finished</string>
+    <string name="ng_filter_downloaded">Downloaded</string>
+    <string name="ng_media_manga">Manga</string>
     <string name="favorites">Favorites</string>
     <string name="favorite">Favorite</string>
     <string name="in_favorites">in Favorites</string>

@@ -3,6 +3,8 @@ package io.legado.app.ui.main.bookshelf.compose
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,6 +39,7 @@ import io.legado.app.lib.theme.accentColor
 import io.legado.app.lib.theme.rememberThemeUiPalette
 import io.legado.app.lib.theme.titleTypeface
 import io.legado.app.lib.theme.titleTextColor
+import io.legado.app.ui.widget.compose.ng.ngJellyPress
 import io.legado.app.utils.toTimeAgo
 
 sealed interface BookshelfItemUi {
@@ -67,11 +71,12 @@ fun buildBookshelfItems(
     books: List<BookShelfDisplay>,
     isRootGroup: Boolean,
     groupId: Long,
-    isUpdating: (String) -> Boolean
+    isUpdating: (String) -> Boolean,
+    filter: NgShelfFilter = NgShelfFilter.All
 ): List<BookshelfItemUi> {
     val configuredTags = AppConfig.bookshelfGroupTags[groupId].orEmpty()
     val hiddenTags = AppConfig.bookshelfHiddenTags[groupId].orEmpty()
-    val bookItems = books.map { book ->
+    val bookItems = books.filter { it.matches(filter) }.map { book ->
         BookshelfBookItemUi(
             display = book,
             isUpdating = !book.isLocal && isUpdating(book.bookUrl),
@@ -140,6 +145,9 @@ fun BookshelfGridItem(
     val context = LocalContext.current
     val themeSignature = rememberThemeUiPalette().signature
     val showBookName = AppConfig.showBookname
+    val interactionSource = remember { MutableInteractionSource() }
+    val pressed by interactionSource.collectIsPressedAsState()
+    val jellyPress = pressed && !AppConfig.isEInkMode
     val titleFontFamily = remember(context, themeSignature) {
         FontFamily(context.titleTypeface())
     }
@@ -150,7 +158,10 @@ fun BookshelfGridItem(
     Column(
         modifier = modifier
             .fillMaxWidth()
+            .ngJellyPress(jellyPress)
             .combinedClickable(
+                interactionSource = interactionSource,
+                indication = null,
                 onClick = { onClick(item) },
                 onLongClick = { onLongClick(item) }
             )
@@ -169,6 +180,9 @@ fun BookshelfGridItem(
                 fragment = fragment,
                 lifecycle = lifecycle
             )
+            if (item is BookshelfBookItemUi && item.display.isImage) {
+                NgMangaBadge(modifier = Modifier.align(Alignment.TopStart))
+            }
             if (item is BookshelfBookItemUi) {
                 BookshelfStatusBadge(item)
             }

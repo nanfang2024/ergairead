@@ -60,7 +60,7 @@ android {
         }
     }
     defaultConfig {
-        applicationId "com.myreader.app"
+        applicationId "com.ngbook.read"
         minSdk 21
         targetSdk 36
         versionCode buildVersionCode
@@ -122,7 +122,7 @@ android {
     android.applicationVariants.configureEach { variant ->
         variant.outputs.configureEach {
             def flavor = variant.productFlavors[0].name
-            outputFileName = "${name}_${flavor}_${defaultConfig.versionName}_${defaultConfig.versionCode}.apk"
+            outputFileName = "NGBook_${flavor}_${defaultConfig.versionName}_${defaultConfig.versionCode}.apk"
         }
     }
 

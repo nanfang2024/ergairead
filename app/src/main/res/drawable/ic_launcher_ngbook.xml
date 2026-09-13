@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- NGBook 启动图标：马卡龙渐变底 + 玻璃质感开卷（果冻玻璃拟态） -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="1024"
+    android:viewportHeight="1024">
+
+    <!-- 底板：大圆角樱花粉 -->
+    <path
+        android:fillColor="#FFE1F0"
+        android:pathData="M260,0 h504 q260,0 260,260 v504 q0,260 -260,260 H260 q-260,0 -260,-260 V260 Q0,0 260,0 z" />
+
+    <!-- 马卡龙光斑：右上薰衣草紫 -->
+    <path
+        android:fillAlpha="0.85"
+        android:fillColor="#CBB9F6"
+        android:pathData="M1024,0 H560 A464,464 0 0 0 1024,464 Z" />
+
+    <!-- 马卡龙光斑：左下薄荷青 -->
+    <path
+        android:fillAlpha="0.80"
+        android:fillColor="#A9E6DD"
+        android:pathData="M0,1024 H554 A554,554 0 0 0 0,470 Z" />
+
+    <!-- 中央柔光 -->
+    <path
+        android:fillAlpha="0.35"
+        android:fillColor="#FFFFFF"
+        android:pathData="M242,512 a270,270 0 1 0 540,0 a270,270 0 1 0 -540,0 z" />
+
+    <!-- 玻璃书本：左页 -->
+    <path
+        android:fillAlpha="0.95"
+        android:fillColor="#FFFFFF"
+        android:pathData="M284,389 C379,341 455,322 504,334 L504,716 C455,704 370,720 284,758 Z" />
+
+    <!-- 玻璃书本：右页 -->
+    <path
+        android:fillAlpha="0.95"
+        android:fillColor="#FFFFFF"
+        android:pathData="M739,389 C645,341 569,322 519,334 L519,716 C569,704 654,720 739,758 Z" />
+
+    <!-- 书脊 -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M504,334 h15 v382 h-15 z" />
+
+    <!-- 左页文字线 -->
+    <path
+        android:fillAlpha="0.35"
+        android:fillColor="#E39BC4"
+        android:pathData="M330,424 h130 v14 h-130 z" />
+    <path
+        android:fillAlpha="0.25"
+        android:fillColor="#E39BC4"
+        android:pathData="M330,474 h150 v14 h-150 z" />
+
+    <!-- 右页文字线 -->
+    <path
+        android:fillAlpha="0.35"
+        android:fillColor="#E39BC4"
+        android:pathData="M543,424 h130 v14 h-130 z" />
+    <path
+        android:fillAlpha="0.25"
+        android:fillColor="#E39BC4"
+        android:pathData="M543,474 h150 v14 h-150 z" />
+
+    <!-- 书本下方柔光（浮起感） -->
+    <path
+        android:fillAlpha="0.30"
+        android:fillColor="#FFFFFF"
+        android:pathData="M284,748 h455 a16,16 0 0 1 0,32 h-455 a16,16 0 0 1 0,-32 z" />
+
+    <!-- 果冻高光弧 -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M170,196 A438,438 0 0 1 512,74"
+        android:strokeAlpha="0.70"
+        android:strokeColor="#FFFFFF"
+        android:strokeLineCap="round"
+        android:strokeWidth="22" />
+</vector>

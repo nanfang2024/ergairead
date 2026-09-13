@@ -1,6 +1,5 @@
 package io.legado.app.ui.main.my
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
@@ -37,8 +36,12 @@ import io.legado.app.ui.widget.compose.AppSettingPalette
 import io.legado.app.ui.widget.compose.AppSettingSectionTitle
 import io.legado.app.ui.widget.compose.LegadoMiuixPalette
 import io.legado.app.ui.widget.compose.LegadoMiuixSwitch
-import io.legado.app.ui.widget.compose.appSettingPanelBackground
 import io.legado.app.ui.widget.compose.appSettingRowDecoration
+import io.legado.app.ui.widget.compose.ng.LocalNgGlassPalette
+import io.legado.app.ui.widget.compose.ng.ngGlassPanel
+import io.legado.app.ui.widget.compose.ng.ngJellyBackground
+import io.legado.app.ui.widget.compose.ng.ngJellyPress
+import io.legado.app.ui.widget.compose.ng.rememberNgGlassPalette
 import io.legado.app.ui.widget.compose.rememberAppSettingPalette
 
 internal enum class MySettingsRowKind {
@@ -117,12 +120,13 @@ internal fun MySettingsScreen(
     )
 
     CompositionLocalProvider(
-        LocalTextStyle provides LocalTextStyle.current.copy(fontFamily = colors.bodyFontFamily)
+        LocalTextStyle provides LocalTextStyle.current.copy(fontFamily = colors.bodyFontFamily),
+        LocalNgGlassPalette provides rememberNgGlassPalette()
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(colors.page)
+                .ngJellyBackground()
         ) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
@@ -178,12 +182,7 @@ private fun SettingsSectionCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = SettingsHorizontalPadding)
-            .appSettingPanelBackground(
-                normalColor = colors.row,
-                panelImage = panelImage,
-                borderColor = colors.border,
-                radiusPx = panelRadiusPx
-            )
+            .ngGlassPanel(radiusPx = panelRadiusPx, overlayImage = panelImage)
     ) {
         AppSettingSectionTitle(title = section.title, palette = colors)
         section.rows.forEachIndexed { index, item ->
@@ -243,6 +242,7 @@ private fun SettingsActionRow(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
+            .ngJellyPress(pressed)
             .defaultMinSize(minHeight = 60.dp)
             .appSettingRowDecoration(
                 pressed = pressed,
@@ -302,6 +302,7 @@ private fun WebServiceRow(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
+            .ngJellyPress(pressed)
             .defaultMinSize(minHeight = 60.dp)
             .appSettingRowDecoration(
                 pressed = pressed,
@@ -358,12 +359,7 @@ private fun EmptySettingsFrame(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = SettingsHorizontalPadding)
-            .appSettingPanelBackground(
-                normalColor = colors.row,
-                panelImage = panelImage,
-                borderColor = colors.border,
-                radiusPx = panelRadiusPx
-            )
+            .ngGlassPanel(radiusPx = panelRadiusPx, overlayImage = panelImage)
     ) {
         AppSettingSectionTitle(title = "搜索结果", palette = colors)
         Row(
